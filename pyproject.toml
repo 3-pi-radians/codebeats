@@ -1,0 +1,27 @@
+[project]
+name = "codebeat"
+version = "0.1.0"
+description = "OpenSourcePulse: do discussion signals predict open-source development-activity decline?"
+requires-python = ">=3.11"
+dependencies = [
+    "google-cloud-bigquery>=3.25",  # GH Archive queries + dry runs
+    "db-dtypes>=1.2",               # needed by BigQuery to_dataframe()
+    "pandas>=2.2",
+    "pyarrow>=16",                  # parquet storage
+    "pyyaml>=6",
+    "python-dotenv>=1",
+    "requests>=2.32",               # GitHub REST/GraphQL
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

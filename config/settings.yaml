@@ -1,0 +1,67 @@
+# CodeBeat / OpenSourcePulse settings.
+# No secrets here: *_env keys name the environment variable that holds the value.
+
+seed: 20220101
+
+study:
+  t0: "2022-01-01"            # D3: repos must exist by this date
+  data_end: "2025-09-30"       # D3: 45-month span, ends before the 7 Oct 2025 events change
+  regime_change_date: "2025-10-07"
+
+windows:
+  observation_months: 6
+  horizon_months: 6
+  step_months: 3
+
+eligibility:
+  min_merged_prs: 10
+  min_active_contributors: 3
+
+label:                         # frozen at end of week 1; change only via docs/amendments.md
+  merged_pr_drop: 0.50         # horizon <= (1 - drop) * observation
+  contributor_drop: 0.40
+  commit_drop: 0.50
+  near_threshold_pp: 0.10      # report-only band around each cutoff
+
+dead:
+  no_commit_months: 12
+
+sampling:
+  strata:                      # stratum -> GitHub primaryLanguage values
+    python: [Python]
+    js_ts: [JavaScript, TypeScript]
+    go: [Go]
+    rust: [Rust]
+  pilot_per_stratum: 10        # 4 x 10 = 40 (target 30-50)
+  post_t0_check_months: 6      # >=1 commit and >=1 merged PR in [t0, t0 + 6 months)
+  min_commits: 1
+  min_merged_prs: 1
+
+bigquery:
+  project_env: GCP_PROJECT
+  max_bytes_without_approval: 20000000000   # 20 GB
+  free_tier_bytes_per_month: 1000000000000  # 1 TB
+  byte_log: logs/bigquery_bytes.csv
+  dry_run_repos:               # small known list for the D2 pruning check
+    - pallets/flask
+    - psf/requests
+    - expressjs/express
+    - axios/axios
+    - gin-gonic/gin
+    - spf13/cobra
+    - tokio-rs/tokio
+    - serde-rs/serde
+
+github:
+  tokens_env: GITHUB_TOKENS
+  cache_dir: data/cache/github
+
+anonymization:
+  salt_env: CODEBEAT_SALT
+
+paths:
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  samples: data/samples
+  reports: reports
